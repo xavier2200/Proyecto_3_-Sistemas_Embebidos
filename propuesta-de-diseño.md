@@ -90,10 +90,10 @@ Es un dispositivo inteligente que se instala en el centro de carga de cualquier 
 Este sistema convierte el manejo de electricidad limitada de una preocupación constante en una tarea simple y controlada.
 
 # Diagrama de funciones del sistema
- ![Diagrama de funciones](./diagramas/functional_diagram_smcei.mermaid)
+ ![Diagrama de funciones](./diagramas/functional_diagram_smcei.mmd)
 
  # Arquitectura de hardware y software utilizadas
 
- ![Diagrama de hardware](./diagramas/hardware_architecture_esp32.mermaid)
+ ![Diagrama de hardware](./diagramas/hardware_architecture_esp32.mmd)
 
- ![Diagrama de software](./diagramas/software_architecture_esp32.mermaid)
+ ![Diagrama de software](./diagramas/software_architecture_esp32.mmd)
