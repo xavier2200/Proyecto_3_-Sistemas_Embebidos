@@ -1,0 +1,63 @@
+flowchart TD
+    subgraph EXTERNAL ["🔌 CONEXIONES EXTERNAS"]
+        GRID["⚡ Red Eléctrica"]
+        LOAD["🏠 Electrodoméstico"]
+        USER["👤 Usuario"]
+        WIFI["🌐 WiFi"]
+    end
+    
+    subgraph ESP32_SYSTEM ["🎛️ ESP32 + COMPONENTES"]
+        ESP32["🔷 ESP32<br/>Controlador Principal"]
+        
+        subgraph SENSORS ["📊 SENSORES"]
+            V_SENSOR["📈 Sensor Voltaje"]
+            I_SENSOR["📊 Sensor Corriente"]
+        end
+        
+        subgraph INTERFACE ["📱 INTERFAZ"]
+            LCD["📺 LCD 16x2"]
+            LEDS["💡 LEDs<br/>🔴🟡🟢"]
+            BUZZER["🔊 Buzzer"]
+            BUTTON["⌨️ Botón"]
+        end
+        
+        PSU["🔋 Fuente 5V"]
+    end
+    
+    %% Conexiones externas
+    GRID --> V_SENSOR
+    GRID --> I_SENSOR
+    I_SENSOR --> LOAD
+    USER --> BUTTON
+    LCD --> USER
+    LEDS --> USER
+    BUZZER --> USER
+    ESP32 -.-> WIFI
+    
+    %% Conexiones internas
+    V_SENSOR --> ESP32
+    I_SENSOR --> ESP32
+    ESP32 --> LCD
+    ESP32 --> LEDS
+    ESP32 --> BUZZER
+    BUTTON --> ESP32
+    PSU --> ESP32
+    PSU --> LCD
+    
+    %% Especificaciones básicas
+    V_SENSOR -.->|"0-250V AC"| ESP32
+    I_SENSOR -.->|"0-30A AC"| ESP32
+    ESP32 -.->|"WiFi 2.4GHz"| WIFI
+    
+    %% Estilos
+    classDef external fill:#ffcdd2,stroke:#c62828,stroke-width:2px
+    classDef esp32 fill:#e1f5fe,stroke:#0277bd,stroke-width:3px
+    classDef sensor fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef interface fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef power fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    
+    class GRID,LOAD,USER,WIFI external
+    class ESP32 esp32
+    class V_SENSOR,I_SENSOR sensor
+    class LCD,LEDS,BUZZER,BUTTON interface
+    class PSU power

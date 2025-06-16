@@ -1,0 +1,80 @@
+
+flowchart TD
+    SMCEI["🏠 SISTEMA SMCEI<br/>Monitor de Consumo Energético"]
+    
+    %% Funciones principales simplificadas
+    subgraph MEDIR ["⚡ MEDIR"]
+        F1["📊 Medir Corriente<br/>y Voltaje"]
+        F2["⚙️ Calcular Potencia<br/>y Energía"]
+    end
+    
+    subgraph PROTEGER ["🛡️ PROTEGER"]
+        F3["🚨 Detectar<br/>Sobrecarga"]
+        F4["⚡ Desconectar<br/>Automáticamente"]
+        F5["🔄 Reconectar<br/>Cuando sea Seguro"]
+    end
+    
+    subgraph MOSTRAR ["📱 MOSTRAR"]
+        F6["📺 Mostrar Datos<br/>en Pantalla"]
+        F7["💡 Alertas Visuales<br/>y Sonoras"]
+        F8["⌨️ Recibir Comandos<br/>del Usuario"]
+    end
+    
+    subgraph COMUNICAR ["📡 COMUNICAR"]
+        F9["📶 Enviar Datos<br/>por WiFi"]
+        F10["📡 Transmitir por<br/>LoRa (Opcional)"]
+    end
+    
+
+    
+    subgraph GESTIONAR ["⚙️ GESTIONAR"]
+        F13["🔧 Configurar<br/>Parámetros"]
+        F14["🔄 Mantener<br/>Sistema"]
+    end
+    
+    %% Conexiones principales del sistema
+    SMCEI --> MEDIR
+    SMCEI --> PROTEGER
+    SMCEI --> MOSTRAR
+    SMCEI --> COMUNICAR
+    SMCEI --> GESTIONAR
+    
+    %% Flujo principal de operación
+    F1 --> F2
+    F2 --> F3
+    F3 -->|"Sobrecarga<br/>Detectada"| F4
+    F4 --> F7
+    F4 --> F5
+    
+    %% Flujos de datos
+    F2 --> F6
+    F2 --> F9
+    F2 --> F10
+    
+    %% Flujos de usuario
+    F8 --> F13
+    F13 --> F6
+    
+    %% Flujos de mantenimiento
+    F14 --> F6
+    F14 --> F7
+    
+    %% Tiempos críticos (simplificados)
+    F1 -.->|"10ms"| F2
+    F3 -.->|"<100ms"| F4
+    F4 -.->|"<200ms"| F7
+    
+    %% Estilos simplificados
+    classDef medir fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef proteger fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef mostrar fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef comunicar fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef gestionar fill:#e0f2f1,stroke:#00695c,stroke-width:2px
+    classDef sistema fill:#ffebee,stroke:#d32f2f,stroke-width:3px
+    
+    class SMCEI sistema
+    class F1,F2 medir
+    class F3,F4,F5 proteger
+    class F6,F7,F8 mostrar
+    class F9,F10 comunicar
+    class F13,F14 gestionar

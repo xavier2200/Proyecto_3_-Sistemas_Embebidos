@@ -1,0 +1,61 @@
+flowchart TD
+    subgraph ESP32_SW ["🎛️ SOFTWARE ESP32"]
+        subgraph TASKS ["🔄 TAREAS PRINCIPALES"]
+            TASK_SENSOR["📊 Tarea Sensores<br/>• Leer voltaje/corriente<br/>• Cada 10ms"]
+            TASK_CONTROL["🛡️ Tarea Control<br/>• Calcular potencia<br/>• Detectar sobrecarga"]
+            TASK_DISPLAY["📱 Tarea Display<br/>• Actualizar LCD<br/>• Controlar LEDs/Buzzer"]
+            TASK_WIFI["📡 Tarea WiFi<br/>• Enviar datos<br/>• Conectar internet"]
+        end
+        
+        subgraph FUNCTIONS ["⚙️ FUNCIONES BÁSICAS"]
+            FUNC_MEASURE["📏 Medir<br/>V, I, P"]
+            FUNC_PROTECT["🛡️ Proteger<br/>Sobrecarga"]
+            FUNC_SHOW["📺 Mostrar<br/>Datos"]
+            FUNC_SEND["📤 Enviar<br/>WiFi"]
+        end
+        
+        FREERTOS["🔄 FreeRTOS<br/>Sistema Operativo"]
+    end
+    
+    subgraph DATA_FLOW ["📊 FLUJO DE DATOS"]
+        SENSORS_DATA["📊 Datos Sensores"]
+        POWER_DATA["⚡ Datos Potencia"]
+        DISPLAY_DATA["📺 Datos Display"]
+        WIFI_DATA["📡 Datos WiFi"]
+    end
+    
+    %% Flujo principal
+    TASK_SENSOR --> SENSORS_DATA
+    SENSORS_DATA --> TASK_CONTROL
+    TASK_CONTROL --> POWER_DATA
+    POWER_DATA --> TASK_DISPLAY
+    POWER_DATA --> TASK_WIFI
+    TASK_DISPLAY --> DISPLAY_DATA
+    TASK_WIFI --> WIFI_DATA
+    
+    %% Conexión con funciones
+    TASK_SENSOR --> FUNC_MEASURE
+    TASK_CONTROL --> FUNC_PROTECT
+    TASK_DISPLAY --> FUNC_SHOW
+    TASK_WIFI --> FUNC_SEND
+    
+    %% Base del sistema
+    TASKS --> FREERTOS
+    FUNCTIONS --> FREERTOS
+    
+    %% Timing crítico
+    TASK_SENSOR -.->|"10ms"| TASK_CONTROL
+    TASK_CONTROL -.->|"<100ms"| TASK_DISPLAY
+    
+    %% Estilos
+    classDef task fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef function fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef data fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef os fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef critical stroke:#d32f2f,stroke-width:3px
+    
+    class TASK_SENSOR,TASK_CONTROL,TASK_DISPLAY,TASK_WIFI task
+    class FUNC_MEASURE,FUNC_PROTECT,FUNC_SHOW,FUNC_SEND function
+    class SENSORS_DATA,POWER_DATA,DISPLAY_DATA,WIFI_DATA data
+    class FREERTOS os
+    class TASK_SENSOR,TASK_CONTROL critical
