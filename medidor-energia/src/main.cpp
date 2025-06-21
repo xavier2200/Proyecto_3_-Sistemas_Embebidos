@@ -21,9 +21,9 @@ float realPower = 0;
 SemaphoreHandle_t powerMutex;
 
 // --- WIFI y MQTT ---
-const char* ssid = "TU_SSID";
-const char* password = "TU_PASSWORD";
-const char* mqtt_server = "broker.hivemq.com";
+const char* ssid = "pop-os-minitaller";
+const char* password = "2356636656";
+const char* mqtt_server = "192.168.1.19";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -51,7 +51,7 @@ void setup_wifi() {
 void reconnect() {
   while (!client.connected()) {
     Serial.print("Intentando conexión MQTT...");
-    if (client.connect("ESP32PowerMonitor")) {
+    if (client.connect("esp32powermonitor", "esp32powermonitor", "123456")) {
       Serial.println("conectado");
     } else {
       Serial.print("falló, rc=");
