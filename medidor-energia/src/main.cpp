@@ -236,8 +236,8 @@ void setup() {
   xTaskCreatePinnedToCore(powerMonitorTask, "PowerMonitor", 8192, NULL, 2, NULL, 0);
   xTaskCreate(statusGoodTask, "GoodLED", 1024, NULL, 1, NULL);
   xTaskCreate(statusWarningTask, "WarningLED", 1024, NULL, 1, NULL);
-  xTaskCreate(statusDangerTask, "DangerLED", 1024, NULL, 1, NULL);
-  xTaskCreate(relayControlTask, "RelayControl", 1024, NULL, 1, NULL);
+  xTaskCreate(statusDangerTask, "DangerLED", 1024, NULL, 3, NULL);
+  xTaskCreate(relayControlTask, "RelayControl", 1024, NULL, 4, NULL);
   xTaskCreate(lcdDisplayTask, "LCDDisplay", 2048, NULL, 1, NULL);
   xTaskCreate(mqttTask, "MQTTTask", 4096, NULL, 1, NULL);
 }
